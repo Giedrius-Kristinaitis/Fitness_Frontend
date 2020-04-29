@@ -15,3 +15,7 @@ code {
 #root {
   padding: 28px;
 }
+
+.tableRow:hover {
+  background-color: #dddddd;
+}

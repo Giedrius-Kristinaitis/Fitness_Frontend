@@ -24,10 +24,7 @@ const StyledTableCell = withStyles((theme) => ({
 
 const StyledTableRow = withStyles((theme) => ({
     root: {
-        width: "100%",
-        '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.background.default,
-        },
+        width: "100%"
     },
 }))(TableRow);
 
@@ -86,7 +83,7 @@ const CompetitionList: React.FC<CompetitionProps> = (props: CompetitionProps) =>
                 </TableHead>
                 <TableBody>
                     {props.competitions.map((competition: Competition) => (
-                        <StyledTableRow key={competition.id} onClick={() => itemClicked(competition.id)}>
+                        <StyledTableRow className="tableRow" key={competition.id} onClick={() => itemClicked(competition.id)}>
                             <StyledTableCell component="th" scope="row">{competition.pavadinimas}</StyledTableCell>
                             <StyledTableCell align="right">{competition.vieta}</StyledTableCell>
                             <StyledTableCell align="right">{competition.prasidejimoData}</StyledTableCell>
