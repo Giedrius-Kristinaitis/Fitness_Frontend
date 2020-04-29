@@ -22,15 +22,10 @@ const StyledTableCell = withStyles((theme) => ({
     },
 }))(TableCell);
 
-const StyledTableRow = withStyles((theme) => ({
-    root: {
-        width: "100%"
-    },
-}))(TableRow);
-
 const useStyles = makeStyles({
     table: {
         minWidth: 700,
+        width: "100%",
     },
 });
 
@@ -83,12 +78,12 @@ const CompetitionList: React.FC<CompetitionProps> = (props: CompetitionProps) =>
                 </TableHead>
                 <TableBody>
                     {props.competitions.map((competition: Competition) => (
-                        <StyledTableRow className="tableRow" key={competition.id} onClick={() => itemClicked(competition.id)}>
+                        <TableRow className="tableRow" key={competition.id} onClick={() => itemClicked(competition.id)}>
                             <StyledTableCell component="th" scope="row">{competition.pavadinimas}</StyledTableCell>
                             <StyledTableCell align="right">{competition.vieta}</StyledTableCell>
                             <StyledTableCell align="right">{competition.prasidejimoData}</StyledTableCell>
                             <StyledTableCell align="right">{competition.pabaigosData}</StyledTableCell>
-                        </StyledTableRow>
+                        </TableRow>
                     ))}
                 </TableBody>
             </Table>
