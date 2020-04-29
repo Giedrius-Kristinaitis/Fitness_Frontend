@@ -1,22 +1,6 @@
-import { CompetitionDictionary, CompetitionUIList, CompetitionUIListState } from "./competition";
+import { CompetitionEntityState, CompetitionUIState } from "./competition";
 
 export interface AppState {
-    entities: {
-        competitions: CompetitionDictionary
-    },
-    ui: {
-        competitionList: CompetitionUIList
-    }
-}
-
-export const initialState: AppState = {
-    entities: {
-        competitions: {}
-    },
-    ui: {
-        competitionList: {
-            state: CompetitionUIListState.STATE_EMPTY,
-            competitionIds: []
-        }
-    }
+    competitionEntityReducer: CompetitionEntityState,
+    competitionUIReducer: CompetitionUIState,
 }

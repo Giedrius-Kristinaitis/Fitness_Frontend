@@ -18,12 +18,20 @@ export enum CompetitionUIListState {
     STATE_LOADED = 'loaded'
 }
 
-export type CompetitionUIList = {
-    state: CompetitionUIListState,
-    competitionIds: number[]
+export interface CompetitionEntityState {
+    entities: CompetitionDictionary
 }
 
-export const competitionUIListInitial: CompetitionUIList = {
+export interface CompetitionUIState {
+    competitionIds: number[],
+    state: CompetitionUIListState,
+}
+
+export const initialCompetitionEntityState: CompetitionEntityState = {
+    entities: {}
+}
+
+export const initialCompetitionUIState: CompetitionUIState = {
+    competitionIds: [],
     state: CompetitionUIListState.STATE_EMPTY,
-    competitionIds: []
 }

@@ -1,15 +1,14 @@
 import { Action } from 'redux';
 import { ACTIONS } from "../action";
 import {
-    Competition,
-    CompetitionDictionary,
-    CompetitionUIList,
-    competitionUIListInitial,
-    CompetitionUIListState
+    CompetitionEntityState,
+    CompetitionUIListState, CompetitionUIState,
+    initialCompetitionEntityState,
+    initialCompetitionUIState
 } from "../state/competition";
 
 export function competitionEntityReducer(
-    state: CompetitionDictionary = {},
+    state: CompetitionEntityState = initialCompetitionEntityState,
     action: Action
 ) {
     switch (action.type) {
@@ -17,8 +16,8 @@ export function competitionEntityReducer(
             const newState = { ...state };
 
             // @ts-ignore
-            for (const competition: Competition of action.payload) {
-                newState[competition.id] = competition;
+            for (const competition of action.payload) {
+                newState.entities[competition.id] = competition;
             }
 
             return newState;
@@ -28,7 +27,7 @@ export function competitionEntityReducer(
 }
 
 export function competitionUIReducer(
-    state: CompetitionUIList = competitionUIListInitial,
+    state: CompetitionUIState = initialCompetitionUIState,
     action: Action
 ) {
     switch (action.type) {
