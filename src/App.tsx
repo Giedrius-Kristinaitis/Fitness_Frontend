@@ -10,7 +10,6 @@ import { history } from './customHistory';
 import CreateCompetitionForm from "./component/competition/createCompetitionForm";
 import CompetitionDetailsForm from "./component/competition/updateCompetitionForm";
 
-// @ts-ignore
 const store = createStore(mainReducer, applyMiddleware(middlewareThunk));
 
 const App = () => (

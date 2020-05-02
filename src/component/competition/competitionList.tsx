@@ -50,7 +50,7 @@ const extractCompetitionsFromState = (state: AppState): Competition[] => {
     return competitions;
 }
 
-const CompetitionList: React.FC<CompetitionProps> = () => {
+const CompetitionList: React.FC = () => {
     const props: CompetitionProps = useSelector((state: AppState) => {
         return {
             competitions: extractCompetitionsFromState(state),
@@ -113,5 +113,4 @@ const CompetitionList: React.FC<CompetitionProps> = () => {
     );
 }
 
-// @ts-ignore
 export default CompetitionList;
