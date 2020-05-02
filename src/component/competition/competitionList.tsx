@@ -95,7 +95,7 @@ const CompetitionList: React.FC = () => {
                     ))}
                 </TableBody>
             </Table>
-        </TableContainer> : (props.loadingState === CompetitionUIListState.STATE_EMPTY ? (<Typography align="center">No competitions found</Typography>) : null);
+        </TableContainer> : (props.loadingState === CompetitionUIListState.STATE_EMPTY || !props.competitions ? (<Typography align="center">No competitions found</Typography>) : null);
 
     return (
         <div>
