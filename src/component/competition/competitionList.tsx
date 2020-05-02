@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { connect, DispatchProp } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -11,10 +11,12 @@ import Paper from '@material-ui/core/Paper';
 import { Competition, CompetitionUIListState } from "../../state/competition";
 import { createFetchAllCompetitionsAction } from "../../action/competition";
 import { AppState } from "../../state";
+import { Button, LinearProgress, Typography } from "@material-ui/core";
+import AddIcon from '@material-ui/icons/Add';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
-        backgroundColor: theme.palette.common.black,
+        backgroundColor: theme.palette.primary.main,
         color: theme.palette.common.white,
     },
     body: {
@@ -22,14 +24,18 @@ const StyledTableCell = withStyles((theme) => ({
     },
 }))(TableCell);
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
     table: {
         minWidth: 700,
         width: "100%",
     },
-});
+    button: {
+        marginTop: theme.spacing(1),
+        marginBottom: theme.spacing(1),
+    },
+}));
 
-interface CompetitionProps extends DispatchProp {
+interface CompetitionProps {
     competitions: Competition[],
     loadingState: CompetitionUIListState,
 }
@@ -44,14 +50,15 @@ const extractCompetitionsFromState = (state: AppState): Competition[] => {
     return competitions;
 }
 
-const mapStateToProps = (state: AppState) => {
-    return {
-        competitions: extractCompetitionsFromState(state),
-        loadingState: state.competitionUIReducer.state,
-    }
-}
+const CompetitionList: React.FC<CompetitionProps> = () => {
+    const props: CompetitionProps = useSelector((state: AppState) => {
+        return {
+            competitions: extractCompetitionsFromState(state),
+            loadingState: state.competitionUIReducer.state,
+        }
+    });
 
-const CompetitionList: React.FC<CompetitionProps> = (props: CompetitionProps) => {
+    const dispatch = useDispatch();
     const classes = useStyles();
 
     const itemClicked: Function = (competitionId: number) => {
@@ -59,13 +66,13 @@ const CompetitionList: React.FC<CompetitionProps> = (props: CompetitionProps) =>
     }
 
     useEffect(() => {
-        const { dispatch } = props;
-
         // @ts-ignore
         dispatch(createFetchAllCompetitionsAction());
-    }, []);
+    }, [dispatch]);
 
-    return (
+    const progress = props.loadingState === CompetitionUIListState.STATE_LOADING ? <LinearProgress/> : null;
+
+    const competitionList = props.loadingState === CompetitionUIListState.STATE_LOADED ?
         <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="customized table">
                 <TableHead>
@@ -78,7 +85,8 @@ const CompetitionList: React.FC<CompetitionProps> = (props: CompetitionProps) =>
                 </TableHead>
                 <TableBody>
                     {props.competitions.map((competition: Competition) => (
-                        <TableRow className="tableRow" key={competition.id} onClick={() => itemClicked(competition.id)}>
+                        <TableRow className="tableRow" key={competition.id}
+                                  onClick={() => itemClicked(competition.id)}>
                             <StyledTableCell component="th" scope="row">{competition.pavadinimas}</StyledTableCell>
                             <StyledTableCell align="right">{competition.vieta}</StyledTableCell>
                             <StyledTableCell align="right">{competition.prasidejimoData}</StyledTableCell>
@@ -87,9 +95,23 @@ const CompetitionList: React.FC<CompetitionProps> = (props: CompetitionProps) =>
                     ))}
                 </TableBody>
             </Table>
-        </TableContainer>
+        </TableContainer> : (props.loadingState === CompetitionUIListState.STATE_EMPTY ? (<Typography align="center">No competitions found</Typography>) : null);
+
+    return (
+        <div>
+            <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                startIcon={<AddIcon />}
+            >
+                New Competition
+            </Button>
+            {progress}
+            {competitionList}
+        </div>
     );
 }
 
 // @ts-ignore
-export default connect(mapStateToProps)(CompetitionList);
+export default CompetitionList;
