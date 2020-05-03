@@ -6,11 +6,13 @@ import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import { Competition } from "../../state/competition";
 import { makeStyles } from "@material-ui/core/styles";
 import SaveIcon from '@material-ui/icons/Save';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles((theme) => ({
     button: {
         marginTop: theme.spacing(3),
         marginBottom: theme.spacing(3),
+        marginLeft: theme.spacing(3),
     },
 }));
 
@@ -51,6 +53,16 @@ const CompetitionForm: React.FC<CompetitionFormProps> = (props: CompetitionFormP
     const handleEndingDateChange = (endingDate: MaterialUiPickersDate) => {
         setEndingDate(endingDate);
     }
+
+    const deleteButton = competition ? <Button
+        variant="contained"
+        color="secondary"
+        className={classes.button}
+        startIcon={<DeleteIcon/>}
+        onClick={() => console.log('delete')}
+    >
+        Delete
+    </Button> : null;
 
     return (
         <div>
@@ -106,6 +118,7 @@ const CompetitionForm: React.FC<CompetitionFormProps> = (props: CompetitionFormP
                     >
                         {actionButtonText}
                     </Button>
+                    {deleteButton}
                 </div>
             </form>
         </div>

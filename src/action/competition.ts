@@ -12,7 +12,7 @@ export const createFetchAllCompetitionsAction = () => {
                     id: 1,
                     pavadinimas: 'Pirma',
                     aprasas: 'Aprasas 1',
-                    vieta: 'Tulikas',
+                    vieta: 'Kaunas',
                     prasidejimoData: '2020-04-28',
                     pabaigosData: '2020-04-29'
                 },
@@ -20,7 +20,7 @@ export const createFetchAllCompetitionsAction = () => {
                     id: 2,
                     pavadinimas: 'Antra',
                     aprasas: 'Aprasas 2',
-                    vieta: 'Tulikas',
+                    vieta: 'Kauno rajonas',
                     prasidejimoData: '2020-04-28',
                     pabaigosData: '2020-04-29'
                 },
@@ -28,7 +28,7 @@ export const createFetchAllCompetitionsAction = () => {
                     id: 3,
                     pavadinimas: 'Trecia',
                     aprasas: 'Aprasas 3',
-                    vieta: 'Tulikas',
+                    vieta: 'Rajono Kaunas',
                     prasidejimoData: '2020-04-28',
                     pabaigosData: '2020-04-29'
                 },
