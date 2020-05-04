@@ -1,59 +1,132 @@
 import { ACTIONS } from "./index";
 import { Competition } from "../state/competition";
 import { Dispatch } from 'redux';
+import { create, deleteById, getAll, getById, update } from "../service/competition/competition-service";
 
 export const createFetchAllCompetitionsAction = () => {
     return (dispatch: Dispatch) => {
-        dispatch(createFetchAllCompetitionsStartedAction());
-
-        setTimeout(() => {
-            const competitions: Competition[] = [
-                {
-                    id: 1,
-                    pavadinimas: 'Pirma',
-                    aprasas: 'Aprasas 1',
-                    vieta: 'Kaunas',
-                    prasidejimoData: '2020-04-28',
-                    pabaigosData: '2020-04-29'
-                },
-                {
-                    id: 2,
-                    pavadinimas: 'Antra',
-                    aprasas: 'Aprasas 2',
-                    vieta: 'Kauno rajonas',
-                    prasidejimoData: '2020-04-28',
-                    pabaigosData: '2020-04-29'
-                },
-                {
-                    id: 3,
-                    pavadinimas: 'Trecia',
-                    aprasas: 'Aprasas 3',
-                    vieta: 'Rajono Kaunas',
-                    prasidejimoData: '2020-04-28',
-                    pabaigosData: '2020-04-29'
-                },
-            ];
-
-            dispatch(createFetchAllCompetitionsCompletedAction(competitions))
-        }, 5000);
+        getAll(dispatch);
     }
 }
 
+export const createFetchSingleCompetitionAction = (id: number) => {
+    return (dispatch: Dispatch) => {
+        getById(id, dispatch);
+    }
+}
+
+export const createUpdateCompetitionAction = (competition: Competition) => {
+    return (dispatch: Dispatch) => {
+        update(competition, dispatch);
+    }
+}
+
+export const createDeleteCompetitionAction = (id: number) => {
+    return (dispatch: Dispatch) => {
+        deleteById(id, dispatch);
+    }
+}
+
+export const createCreateCompetitionAction = (competition: Competition) => {
+    return (dispatch: Dispatch) => {
+        create(competition, dispatch);
+    }
+}
+
+export const createCreateCompetitionStartedAction = () => {
+    return {
+        type: ACTIONS.ACTION_COMPETITION_CREATE_STARTED,
+    }
+}
+
+export const createCreateCompetitionFailedAction = () => {
+    return {
+        type: ACTIONS.ACTION_COMPETITION_CREATE_FAILED,
+    }
+}
+
+export const createCreateCompetitionCompletedAction = () => {
+    return {
+        type: ACTIONS.ACTION_COMPETITION_CREATE_COMPLETED,
+    }
+}
+
+export const createDeleteCompetitionStartedAction = () => {
+    return {
+        type: ACTIONS.ACTION_COMPETITION_DELETE_STARTED,
+    }
+}
+
+export const createDeleteCompetitionFailedAction = () => {
+    return {
+        type: ACTIONS.ACTION_COMPETITION_DELETE_FAILED,
+    }
+}
+
+export const createDeleteCompetitionCompletedAction = () => {
+    return {
+        type: ACTIONS.ACTION_COMPETITION_DELETE_COMPLETED,
+    }
+}
+
+export const createUpdateCompetitionStartedAction = () => {
+    return {
+        type: ACTIONS.ACTION_COMPETITION_UPDATE_STARTED,
+    }
+};
+
+export const createUpdateCompetitionFailedAction = () => {
+    return {
+        type: ACTIONS.ACTION_COMPETITION_UPDATE_FAILED,
+    }
+};
+
+export const createUpdateCompetitionCompletedAction = () => {
+    return {
+        type: ACTIONS.ACTION_COMPETITION_UPDATE_COMPLETED,
+    }
+};
+
 export const createFetchAllCompetitionsStartedAction = () => {
     return {
-        type: ACTIONS.ACTION_COMPETITION_FETCH_ALL_STARTED
+        type: ACTIONS.ACTION_COMPETITION_FETCH_ALL_STARTED,
     }
 }
 
 export const createFetchAllCompetitionsFailedAction = () => {
     return {
-        type: ACTIONS.ACTION_COMPETITION_FETCH_ALL_FAILED
+        type: ACTIONS.ACTION_COMPETITION_FETCH_ALL_FAILED,
     }
 }
 
 export const createFetchAllCompetitionsCompletedAction = (competitions: Competition[]) => {
     return {
         type: ACTIONS.ACTION_COMPETITION_FETCH_ALL_COMPLETED,
-        payload: competitions
+        payload: competitions,
+    }
+}
+
+export const createFetchSingleCompetitionStartedAction = () => {
+    return {
+        type: ACTIONS.ACTION_COMPETITION_FETCH_SINGLE_STARTED,
+    }
+}
+
+export const createFetchSingleCompetitionFailedAction = () => {
+    return {
+        type: ACTIONS.ACTION_COMPETITION_FETCH_SINGLE_FAILED,
+    }
+}
+
+export const createFetchSingleCompetitionCompletedAction = (competition: Competition) => {
+    return {
+        type: ACTIONS.ACTION_COMPETITION_FETCH_SINGLE_COMPLETED,
+        payload: competition,
+    }
+}
+
+export const createCompetitionResetRedirectRequiredAction = () => {
+    return {
+        type: ACTIONS.ACTION_COMPETITION_RESET_REDIRECT_REQUIRED,
     }
 }

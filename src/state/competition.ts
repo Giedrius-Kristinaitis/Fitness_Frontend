@@ -1,10 +1,12 @@
+import { FormMessageType } from "./index";
+
 export interface Competition {
     id: number,
-    pavadinimas: string,
-    aprasas: string,
-    vieta: string,
-    prasidejimoData: string,
-    pabaigosData: string
+    name: string,
+    description: string,
+    location: string,
+    startingDate: string,
+    endingDate: string
 }
 
 export type CompetitionDictionary = {
@@ -19,19 +21,31 @@ export enum CompetitionUIListState {
 }
 
 export interface CompetitionEntityState {
-    entities: CompetitionDictionary
+    entities: CompetitionDictionary,
 }
 
 export interface CompetitionUIState {
     competitionIds: number[],
     state: CompetitionUIListState,
+    competitionProcessing: boolean,
+    competitionFormMessage: string | null,
+    competitionFormMessageType: FormMessageType,
+    redirectToListRequired: boolean,
+    competitionListMessage: string | null,
+    competitionListMessageType: FormMessageType,
 }
 
 export const initialCompetitionEntityState: CompetitionEntityState = {
-    entities: {}
+    entities: {},
 }
 
 export const initialCompetitionUIState: CompetitionUIState = {
     competitionIds: [],
     state: CompetitionUIListState.STATE_EMPTY,
+    competitionProcessing: false,
+    competitionFormMessage: null,
+    competitionFormMessageType: FormMessageType.MESSAGE_NONE,
+    redirectToListRequired: false,
+    competitionListMessage: null,
+    competitionListMessageType: FormMessageType.MESSAGE_NONE,
 }
