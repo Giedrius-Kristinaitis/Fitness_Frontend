@@ -48,13 +48,13 @@ const competitionClicked = () => {
 const sportProgramsClicked = () => {
     history.push('/competition/all');
 }
-const ExercisesClicked = () => {
+const exercisesClicked = () => {
+    history.push('/exercise/all');
+}
+const sportsmanClicked = () => {
     history.push('/competition/all');
 }
-const SportsmanClicked = () => {
-    history.push('/competition/all');
-}
-const TrainerClicked = () => {
+const trainerClicked = () => {
     history.push('/competition/all');
 }
 
@@ -81,7 +81,7 @@ const MainPage: React.FC = () => {
                     color="primary"
                     className={classes.button}
                     startIcon={<AddIcon/>}
-                    onClick={() => competitionClicked()}
+                    onClick={() => sportProgramsClicked()}
                 >
                     Sport programs
                 </Button>
@@ -92,7 +92,7 @@ const MainPage: React.FC = () => {
                     color="primary"
                     className={classes.button}
                     startIcon={<AddIcon/>}
-                    onClick={() => competitionClicked()}
+                    onClick={() => exercisesClicked()}
                 >
                     Exercises
                 </Button>
@@ -103,7 +103,7 @@ const MainPage: React.FC = () => {
                     color="primary"
                     className={classes.button}
                     startIcon={<AddIcon/>}
-                    onClick={() => competitionClicked()}
+                    onClick={() => sportsmanClicked()}
                 >
                     Sportsman View
                 </Button>
@@ -114,7 +114,7 @@ const MainPage: React.FC = () => {
                     color="primary"
                     className={classes.button}
                     startIcon={<AddIcon/>}
-                    onClick={() => competitionClicked()}
+                    onClick={() => trainerClicked()}
                 >
                     Trainer View
                 </Button>

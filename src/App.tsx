@@ -10,6 +10,7 @@ import { history } from './customHistory';
 import CreateCompetitionForm from "./component/competition/createCompetitionForm";
 import CompetitionDetailsForm from "./component/competition/updateCompetitionForm";
 import MainPage from "./component/main/mainPage";
+import ExerciseList from "./component/exercise/exerciseList";
 
 const store = createStore(mainReducer, applyMiddleware(middlewareThunk));
 
@@ -20,7 +21,7 @@ const App = () => (
             <Route path="/competition/create" component={CreateCompetitionForm}/>
             <Route path="/competition/view/:id" component={CompetitionDetailsForm}/>
             <Route path="/index" component={MainPage}/>
-
+            <Route path="/exercise/all" component={ExerciseList}/>
         </Router>
     </Provider>
 );
@@ -30,7 +31,7 @@ export default App;
 <Route path="/sportprogram/all" component={SportProgramList}/>
 <Route path="/sportprogram/view/:id" component={SportProgramDetailsForm}/>
 <Route path="/sportprogram/create" component={CreateSportProgramForm}/>
-<Route path="/exercise/all" component={ExerciseListView}/>
+
 <Route path="/exercise/view/:id" component={ExerciseInfoView}/>
 <Route path="/sportsman" component={SportsmanView}/>
 <Route path="/sportsman/create" component={CreateSportsmanIllnessForm}/>
