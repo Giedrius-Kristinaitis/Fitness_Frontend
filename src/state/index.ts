@@ -1,8 +1,11 @@
 import { CompetitionEntityState, CompetitionUIState } from "./competition";
+import { SportProgramEntityState, SportProgramUIState} from "./sportProgram";
 
 export interface AppState {
     competitionEntityReducer: CompetitionEntityState,
     competitionUIReducer: CompetitionUIState,
+    sportProgramEntityReducer: SportProgramEntityState,
+    sportsProgramUIReducer: SportProgramUIState
 }
 
 export enum FormMessageType {

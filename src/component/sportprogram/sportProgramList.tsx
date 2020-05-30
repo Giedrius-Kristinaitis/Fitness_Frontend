@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {makeStyles, withStyles} from '@material-ui/core/styles';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -8,14 +8,17 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import {Competition, CompetitionUIListState} from "../../state/competition";
-import {createCompetitionResetRedirectRequiredAction, createFetchAllCompetitionsAction} from "../../action/competition";
-import {AppState, FormMessageType} from "../../state";
-import {Button, LinearProgress, Typography} from "@material-ui/core";
+import { Competition, CompetitionUIListState } from "../../state/competition";
+import {
+    createCompetitionResetRedirectRequiredAction,
+    createFetchAllCompetitionsAction
+} from "../../action/competition";
+import { AppState, FormMessageType } from "../../state";
+import { Button, LinearProgress, Typography } from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
-import {history} from "../../customHistory";
+import { history } from "../../customHistory";
 import Snackbar from "@material-ui/core/Snackbar";
-import {Alert} from "../alert";
+import { Alert } from "../alert";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -121,7 +124,7 @@ const CompetitionList: React.FC = () => {
         </TableContainer> : (props.loadingState === CompetitionUIListState.STATE_EMPTY
         || props.loadingState === CompetitionUIListState.STATE_FAILED
         || !props.competitions ? (
-            <Typography align="center">No competitions found</Typography>) : null);
+            <Typography align="center">No sport programs found</Typography>) : null);
 
     return (
         <div>
