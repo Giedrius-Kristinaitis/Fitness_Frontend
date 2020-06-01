@@ -83,7 +83,7 @@ const MainPage: React.FC = () => {
                     startIcon={<AddIcon/>}
                     onClick={() => sportProgramsClicked()}
                 >
-                    Sport programs
+                    Sport programs list
                 </Button>
             </div>
             <div>

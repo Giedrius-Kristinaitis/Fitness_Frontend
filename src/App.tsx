@@ -11,6 +11,7 @@ import CreateCompetitionForm from "./component/competition/createCompetitionForm
 import CompetitionDetailsForm from "./component/competition/updateCompetitionForm";
 import MainPage from "./component/main/mainPage";
 import ExerciseList from "./component/exercise/exerciseList";
+import CreateExerciseForm from "./component/exercise/createExerciseForm";
 
 const store = createStore(mainReducer, applyMiddleware(middlewareThunk));
 
@@ -22,6 +23,8 @@ const App = () => (
             <Route path="/competition/view/:id" component={CompetitionDetailsForm}/>
             <Route path="/index" component={MainPage}/>
             <Route path="/exercise/all" component={ExerciseList}/>
+            <Route path="/exercise/create" component={CreateExerciseForm}/>
+            <Route path="/exercise/view/:id" component={CompetitionDetailsForm}/>
         </Router>
     </Provider>
 );

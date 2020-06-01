@@ -9,7 +9,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import {Exercise, ExerciseUIListState} from "../../state/exercise";
-import {createExerciseResetRedirectRequiredAction, createFetchAllExercisesAction} from "../../action/exercise";
+import {
+    createDeleteExerciseAction,
+    createExerciseResetRedirectRequiredAction,
+    createFetchAllExercisesAction, createFetchAllUserExercisesAction
+} from "../../action/exercise";
 import {AppState, FormMessageType} from "../../state";
 import {Button, LinearProgress, Typography} from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
@@ -68,14 +72,15 @@ const ExerciseList: React.FC = () => {
         history.push(`/exercise/view/${exerciseId}`);
     }
     const deleteItem: Function = (exerciseId: number) => {
-        history.push(`/exercise/view/${exerciseId}`);
+        dispatch(createDeleteExerciseAction(exerciseId));
+        history.push(`/exercise/all`);
     }
     const [ messageOpen, setMessageOpen ] = useState<boolean>(true);
 
     useEffect(() => {
         dispatch(createExerciseResetRedirectRequiredAction());
         // @ts-ignore
-        dispatch(createFetchAllExercisesAction());
+        dispatch(createFetchAllUserExercisesAction(1));
     }, [ dispatch ]);
 
     const newExerciseClicked = () => {
@@ -101,23 +106,28 @@ const ExerciseList: React.FC = () => {
             <Table className={classes.table} aria-label="customized table">
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell>Title</StyledTableCell>
-                        <StyledTableCell align="right">Location</StyledTableCell>
-                        <StyledTableCell align="right">Starts On</StyledTableCell>
-                        <StyledTableCell align="right">Ends On</StyledTableCell>
+                        <StyledTableCell>Video URL</StyledTableCell>
+                        <StyledTableCell align="right">Number</StyledTableCell>
+                        <StyledTableCell align="right">Evaluation</StyledTableCell>
+                        <StyledTableCell align="right">Evaluation date</StyledTableCell>
+                        <StyledTableCell align="right">Actions</StyledTableCell>
+
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {props.exercises.map((exercise: Exercise) => (
                         <TableRow className="tableRow" key={exercise.id}
-                                  onClick={() => itemClicked(exercise.id)}>
-                            <StyledTableCell component="th" scope="row">{exercise.videoUrl}</StyledTableCell>
-                            <StyledTableCell align="right">{exercise.num}</StyledTableCell>
+                                  >
+                            <StyledTableCell onClick={() => itemClicked(exercise.id)} component="th" scope="row">{exercise.videoUrl}</StyledTableCell>
+                            <StyledTableCell align="right">{exercise.id}</StyledTableCell>
                             <StyledTableCell align="right">{exercise.eval}</StyledTableCell>
                             <StyledTableCell
                                 align="right">{new Date(exercise.evalDate).toLocaleString('lt-LT')}</StyledTableCell>
                             <StyledTableCell
                                 align="right">
+                                <button  onClick={(e) => { if (window.confirm('Are you sure you wish to delete this item?')) deleteItem(exercise.id) } }>
+                                    Update
+                                </button>
                                 <button  onClick={(e) => { if (window.confirm('Are you sure you wish to delete this item?')) deleteItem(exercise.id) } }>
                                     Delete
                                 </button>

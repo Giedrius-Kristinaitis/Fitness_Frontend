@@ -8,9 +8,9 @@ export const createFetchAllExercisesAction = () => {
         GetAllCompletedExercises(dispatch);
     }
 }
-export const createFetchAllUserExercisesAction = () => {
+export const createFetchAllUserExercisesAction = (id: number) => {
     return (dispatch: Dispatch) => {
-        GetCompletedExercisesForUser(dispatch);
+        GetCompletedExercisesForUser(id, dispatch);
     }
 }
 

@@ -6,6 +6,10 @@ export interface Exercise {
     eval: number,
     videoUrl: string,
     evalDate: string,
+    sportsmanId: number,
+
+    sportId: number,
+    sportName: string,
 }
 
 export type ExerciseDictionary = {
