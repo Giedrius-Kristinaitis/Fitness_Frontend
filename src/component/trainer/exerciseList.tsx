@@ -118,16 +118,16 @@ const ExerciseListView: React.FC = () => {
         setOpen(false);
 
         const items = props.exercises.filter(item => item.id !== exercise.id);
-        const item1 = props.exercises.filter(item => item.id !== exercise.id);
+        const item1 = props.exercises.filter(item => item.id === exercise.id);
         var tempDate = new Date();
         var date = tempDate.getFullYear() + '-' + (tempDate.getMonth()+1) + '-' + tempDate.getDate() +' '+ tempDate.getHours()+':'+ tempDate.getMinutes()+':'+ tempDate.getSeconds();
         const currDate = date;
         item1[0].eval = rating;
         item1[0].num = num;
         item1[0].evalDate = currDate;
-        const all = items.concat(item1);
+        const all = item1.concat(items);
 
-        //props.exercises = items;
+        //refresh
         dispatch(createFetchAllUserExercisesCompletedAction(all))
 
 
@@ -139,6 +139,13 @@ const ExerciseListView: React.FC = () => {
     const removeClicked: Function = (exerciseId: number) => {
         dispatch(createDeleteRateExerciseAction(exerciseId));
         setOpen(false);
+        //refresh
+        const items = props.exercises.filter(item => item.id !== exerciseId);
+        const item1 = props.exercises.filter(item => item.id === exerciseId);
+        item1[0].eval = 0;
+        item1[0].num = 0;
+        item1[0].evalDate = "1970-01-01 03:00:00";
+        dispatch(createFetchAllUserExercisesCompletedAction(props.exercises))
         //dispatch(createFetchAllExercisesAction());
 
     }
