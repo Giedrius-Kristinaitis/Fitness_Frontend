@@ -65,7 +65,7 @@ const convertExerciseToRequestBodyEssential = (exercise: Exercise): object => {
         fkSportininkasId: exercise.sportsmanId,
     }
 }
-const GetCompletedExercisesForUser: Function = (id: number, dispatch: Dispatch) => {
+const openExerciseListPageUser: Function = (id: number, dispatch: Dispatch) => {
     dispatch(createFetchAllExercisesStartedAction());
 
     return fetch(`${config.BACKEND_URL}api/exercises/performed/${id}`, {
@@ -81,7 +81,7 @@ const GetCompletedExercisesForUser: Function = (id: number, dispatch: Dispatch) 
         .catch(() => dispatch(createFetchAllUserExercisesFailedAction()));
 }
 
-const GetAllCompletedExercises: Function = (dispatch: Dispatch) => {
+const openExerciseListPage: Function = (dispatch: Dispatch) => {
     dispatch(createFetchAllExercisesStartedAction());
 
     return fetch(`${config.BACKEND_URL}api/exercises`, {
@@ -96,7 +96,7 @@ const GetAllCompletedExercises: Function = (dispatch: Dispatch) => {
         })
         .catch(() => dispatch(createFetchAllExercisesFailedAction()));
 }
-const GetExercise: Function = (id: number, dispatch: Dispatch) => {
+const openExercisePage: Function = (id: number, dispatch: Dispatch) => {
     dispatch(createFetchSingleExerciseStartedAction());
 
     return fetch(`${config.BACKEND_URL}api/exercises/${id}`, {
@@ -112,7 +112,7 @@ const GetExercise: Function = (id: number, dispatch: Dispatch) => {
         .catch(() => dispatch(createFetchSingleExerciseFailedAction()));
 }
 
-const CreateExercise: Function = (exercise: Exercise, dispatch: Dispatch) => {
+const receiveFormCreate: Function = (exercise: Exercise, dispatch: Dispatch) => {
     dispatch(createCreateExerciseStartedAction());
 
     return fetch(`${config.BACKEND_URL}api/exercises`, {
@@ -126,7 +126,7 @@ const CreateExercise: Function = (exercise: Exercise, dispatch: Dispatch) => {
         .catch(() => dispatch(createCreateExerciseFailedAction()));
 }
 
-const UpdateExercise: Function = (exercise: Exercise, dispatch: Dispatch) => {
+const receiveFormUpdate: Function = (exercise: Exercise, dispatch: Dispatch) => {
     dispatch(createUpdateExerciseStartedAction());
 
     return fetch(`${config.BACKEND_URL}api/exercises/${exercise.id}`, {
@@ -153,7 +153,7 @@ const DeleteExercise: Function = (id: number, dispatch: Dispatch) => {
         .then(() => dispatch(createDeleteExerciseCompletedAction()))
         .catch(() => dispatch(createDeleteExerciseFailedAction()));
 }
-const DeleteRating: Function = (id: number, dispatch: Dispatch) => {
+const removeRating: Function = (id: number, dispatch: Dispatch) => {
     dispatch(createDeleteExerciseStartedAction());
 
     return fetch(`${config.BACKEND_URL}api/exercises/rating/delete/${id}`, {
@@ -166,7 +166,7 @@ const DeleteRating: Function = (id: number, dispatch: Dispatch) => {
         .then(() => dispatch(createDeleteExerciseCompletedAction()))
         .catch(() => dispatch(createDeleteExerciseFailedAction()));
 }
-const InsertRating: Function = (exercise: Exercise, dispatch: Dispatch) => {
+const addRating: Function = (exercise: Exercise, dispatch: Dispatch) => {
     dispatch(createCreateExerciseStartedAction());
 
     return fetch(`${config.BACKEND_URL}api/exercises/rating/insert/${exercise.id}`, {
@@ -179,34 +179,6 @@ const InsertRating: Function = (exercise: Exercise, dispatch: Dispatch) => {
         .then(() => dispatch(createCreateExerciseCompletedAction()))
         .catch(() => dispatch(createCreateExerciseFailedAction()));
 }
-/*const openSportsProgramsList: Function = (id: number, dispatch: Dispatch) => {
-    dispatch(createFetchAllSportsProgramsStartedAction());
 
-    return fetch(`${config.BACKEND_URL}api/sportPrograms/coach/${id}`, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-        },
-    })
-        .then(response => response.json())
-        .then(data => {
-            dispatch(createFetchAllSportsProgramsCompletedAction(extractSportsProgramssFromResponse(data)));
-        })
-        .catch(() => dispatch(createFetchAllSportsProgramsFailedAction()));
-}
 
-const CreateSportsProgram: Function = (exercise: Exercise, dispatch: Dispatch) => {
-    dispatch(createCreateExerciseStartedAction());
-
-    return fetch(`${config.BACKEND_URL}api/exercises`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(convertExerciseToRequestBody(exercise)),
-    })
-        .then(() => dispatch(createCreateExerciseCompletedAction()))
-        .catch(() => dispatch(createCreateExerciseFailedAction()));
-}*/
-
-export { GetAllCompletedExercises, GetCompletedExercisesForUser, GetExercise, CreateExercise, UpdateExercise, DeleteExercise, InsertRating, DeleteRating };
+export { openExerciseListPage, openExerciseListPageUser, openExercisePage, receiveFormCreate, receiveFormUpdate, DeleteExercise, addRating, removeRating };

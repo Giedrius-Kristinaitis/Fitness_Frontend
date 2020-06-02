@@ -97,7 +97,7 @@ const CompetitionList: React.FC = () => {
     const joinCompetition: Function = (competition: Competition) => {
         dispatch(createJoinCompetitionAction(competition,1));
         //dispatch(createFetchAllUserExercisesAction(1));
-        setMessageOpen(true);
+        //setMessageOpen(true);
 
         //dispatch(createFetchAllCompetitionsCompletedAction(items))
 

@@ -1,28 +1,28 @@
 import { ACTIONS } from "./index";
 import { Exercise } from "../state/exercise";
 import { Dispatch } from 'redux';
-import { CreateExercise, DeleteExercise, GetAllCompletedExercises, GetCompletedExercisesForUser, GetExercise, UpdateExercise, InsertRating, DeleteRating } from "../service/exercise/exercise-service";
+import { receiveFormCreate, DeleteExercise, openExerciseListPage, openExerciseListPageUser, openExercisePage, receiveFormUpdate, addRating, removeRating } from "../service/exercise/exercise-service";
 
 export const createFetchAllExercisesAction = () => {
     return (dispatch: Dispatch) => {
-        GetAllCompletedExercises(dispatch);
+        openExerciseListPage(dispatch);
     }
 }
 export const createFetchAllUserExercisesAction = (id: number) => {
     return (dispatch: Dispatch) => {
-        GetCompletedExercisesForUser(id, dispatch);
+        openExerciseListPageUser(id, dispatch);
     }
 }
 
 export const createFetchSingleExerciseAction = (id: number) => {
     return (dispatch: Dispatch) => {
-        GetExercise(id, dispatch);
+        openExercisePage(id, dispatch);
     }
 }
 
 export const createUpdateExerciseAction = (exercise: Exercise) => {
     return (dispatch: Dispatch) => {
-        UpdateExercise(exercise, dispatch);
+        receiveFormUpdate(exercise, dispatch);
     }
 }
 
@@ -33,17 +33,17 @@ export const createDeleteExerciseAction = (id: number) => {
 }
 export const createInsertRateExerciseAction = (exercise: Exercise) => {
     return (dispatch: Dispatch) => {
-        InsertRating(exercise, dispatch);
+        addRating(exercise, dispatch);
     }
 }
 export const createDeleteRateExerciseAction = (id: number) => {
     return (dispatch: Dispatch) => {
-        DeleteRating(id, dispatch);
+        removeRating(id, dispatch);
     }
 }
 export const createCreateExerciseAction = (exercise: Exercise) => {
     return (dispatch: Dispatch) => {
-        CreateExercise(exercise, dispatch);
+        receiveFormCreate(exercise, dispatch);
     }
 }
 
