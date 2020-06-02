@@ -6,7 +6,11 @@ import {
     UPDATE_SPORTPROGRAM,
     CREATE_SPORTPROGRAM_COMPLETED,
     DELETE_SPORTPROGRAM_COMPLETED,
-    RESET_REDIRECTION, ADD_NEW_EXERCISE, UPDATE_SPORTPROGRAM_REQUEST_COMPLETED
+    RESET_REDIRECTION,
+    ADD_NEW_EXERCISE,
+    UPDATE_SPORTPROGRAM_REQUEST_COMPLETED,
+    CREATE_SPORTPROGRAM_FAILED,
+    UPDATE_SPORTPROGRAM_REQUEST_FAILED, RESET_MESSAGE
 } from "../action/sportprogram";
 
 const sportProgramsReducer = (state = {isFetching: false, sportprograms: []}, action) => {
@@ -20,9 +24,9 @@ const sportProgramsReducer = (state = {isFetching: false, sportprograms: []}, ac
         case RECEIVE_SPORTPROGRAM:
             return {...state, isFetching: false, sportprogram: action.sportprogram};
         case CREATE_SPORTPROGRAM_COMPLETED:
-            return {...state, redirectToListRequired: true, message: 'Successfully created!'};
+            return {...state, redirectToListRequired: true, message: 'Successfully created!', messageType: 'success'};
         case DELETE_SPORTPROGRAM_COMPLETED:
-            return {...state, redirectToListRequired: true, message: 'Successfully deleted!'};
+            return {...state, redirectToListRequired: true, message: 'Successfully deleted!', messageType: 'success'};
         case RESET_REDIRECTION:
             return {...state, redirectToListRequired: false}
         case ADD_NEW_EXERCISE:
@@ -46,7 +50,12 @@ const sportProgramsReducer = (state = {isFetching: false, sportprograms: []}, ac
 
             return {...state, sportprograms: allSportPrograms}
         case UPDATE_SPORTPROGRAM_REQUEST_COMPLETED:
-            return {...state, redirectToListRequired: true, updated: action.updated}
+            return {...state, redirectToListRequired: true, updated: action.updated};
+        case RESET_MESSAGE:
+            return {...state, message: null, messageType: null}
+        case CREATE_SPORTPROGRAM_FAILED:
+        case UPDATE_SPORTPROGRAM_REQUEST_FAILED:
+            return {...state, message: action.message.message, messageType: 'error'};
         default:
             return state;
     }

@@ -10,7 +10,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import {
     addNewExercise,
     createSportProgram,
-    deleteSportProgram, editSportProgram,
+    deleteSportProgram, editSportProgram, resetMessage,
     resetRedirection,
 } from "../../action/sportprogram";
 import {useDispatch, useSelector} from "react-redux";
@@ -20,6 +20,9 @@ import ExerciseForm from "./exerciseForm";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Exercises from "../../state/exercises";
+import Snackbar from "@material-ui/core/Snackbar";
+import {Alert} from "../alert";
+import sportProgramsReducer from "../../reducer/sportprogram";
 
 const SportProgramForm = (props) => {
     const dispatch = useDispatch();
@@ -49,6 +52,8 @@ const SportProgramForm = (props) => {
     }
 
     const isEditing = sportprogram ? !!sportprogram.idSportoPrograma : false;
+
+    const [ messageOpen, setMessageOpen ] = useState(true);
 
     const handleSubmit = () => {
         const updatedSportProgram = {pavadinimas: name, aprasas: description, nuotraukosUrl: photoUrl, fkTrenerisId: 2};
@@ -80,6 +85,8 @@ const SportProgramForm = (props) => {
         } else {
             dispatch(createSportProgram(updatedSportProgram));
         }
+
+        setMessageOpen(true);
     }
 
     const handleDeleteClick = () => {
@@ -124,7 +131,19 @@ const SportProgramForm = (props) => {
         </div>
     );
 
-    return (
+    const { message, messageType } = useSelector((state) => {
+        return {
+            message: state.sportProgramsReducer.message,
+            messageType: state.sportProgramsReducer.messageType,
+        };
+    });
+
+
+    const messageSnackbar = message ?
+        // @ts-ignore
+        <Snackbar open={messageOpen} autoHideDuration={5000} onClose={() => { setMessageOpen(false); dispatch(resetMessage())}}><Alert severity={messageType}>{message}</Alert></Snackbar> : null;
+
+    const editSportsProgram = (
         <div>
             <Typography variant="h4" component="h1">Sporto programos informacija</Typography>
             <img src={photoUrl} height="200"/>
@@ -145,32 +164,6 @@ const SportProgramForm = (props) => {
                     <Typography variant="h5" component="h1">Pratimai</Typography>
                     {showExercises}
                     {newExerciseSelection}
-                    {/*{exercises.map(e => (*/}
-                    {/*    <div key={e.idSportoProgramosPratimas}>*/}
-                    {/*        <FormControl className="formElement">*/}
-                    {/*            <InputLabel htmlFor={`id${e.idSportoProgramosPratimas}`}>Pavadinimas</InputLabel>*/}
-                    {/*            <Input id={`id${e.idSportoProgramosPratimas}`} value={e.fkPratimas.pavadinimas}/>*/}
-                    {/*        </FormControl>*/}
-                    {/*        <FormControl className="formElement">*/}
-                    {/*            <InputLabel htmlFor={`desc${e.idSportoProgramosPratimas}`}>Aprašymas</InputLabel>*/}
-                    {/*            <Input id={`desc${e.idSportoProgramosPratimas}`} value={e.fkPratimas.aprasymas}/>*/}
-                    {/*        </FormControl>*/}
-                    {/*        <FormControl className="formElement">*/}
-                    {/*            <InputLabel htmlFor={`photoUrl${e.idSportoProgramosPratimas}`}>Nuotraukos*/}
-                    {/*                url</InputLabel>*/}
-                    {/*            <Input id={`photoUrl${e.idSportoProgramosPratimas}`}*/}
-                    {/*                   value={e.fkPratimas.nuotraukosUrl ? e.fkPratimas.nuotraukosUrl : ''}/>*/}
-                    {/*        </FormControl>*/}
-                    {/*        <FormControl className="formElement">*/}
-                    {/*            <InputLabel htmlFor={`sets${e.idSportoProgramosPratimas}`}>Setai</InputLabel>*/}
-                    {/*            <Input id={`sets${e.idSportoProgramosPratimas}`} value={e.setai}/>*/}
-                    {/*        </FormControl>*/}
-                    {/*        <FormControl className="formElement">*/}
-                    {/*            <InputLabel htmlFor={`reps${e.idSportoProgramosPratimas}`}>Kartojimai</InputLabel>*/}
-                    {/*            <Input id={`reps${e.idSportoProgramosPratimas}`} value={e.kartojimai}/>*/}
-                    {/*        </FormControl>*/}
-                    {/*    </div>*/}
-                    {/*))}*/}
                 </FormGroup>
                 <Button
                     variant="contained"
@@ -194,143 +187,11 @@ const SportProgramForm = (props) => {
                     {deleteButton}
                 </div>
             </form>
+            {messageSnackbar}
         </div>
     );
+
+    return editSportsProgram;
 }
 
 export default SportProgramForm;
-
-// export default class SportProgramForm extends React.Component {
-//     constructor(props) {
-//         super(props);
-//     }
-//
-//     getSportProgram() {
-//         const sportProgram = this.props.changedprogram;
-//         let validatedSportProgram = {pavadinimas: '', aprasas: '', nuotraukosUrl: '', sportoProgramosPratimas: []};
-//         validatedSportProgram.pavadinimas = sportProgram ? sportProgram.pavadinimas ? sportProgram.pavadinimas : '' : '';
-//         validatedSportProgram.aprasas = sportProgram ? sportProgram.aprasas ? sportProgram.aprasas : '' : '';
-//         validatedSportProgram.nuotraukosUrl = sportProgram ? sportProgram.nuotraukosUrl ? sportProgram.nuotraukosUrl : '' : '';
-//         validatedSportProgram.sportoProgramosPratimas = sportProgram ? sportProgram.sportoProgramosPratimas ? sportProgram.sportoProgramosPratimas : [] : [];
-//
-//         return validatedSportProgram;
-//     }
-//
-//     handleName(event) {
-//         const newName = event.target.value;
-//         this.props.dispatch(changeSportProgram({pavadinimas: newName}));
-//     }
-//
-//     handleDescription(event) {
-//         this.props.dispatch(changeSportProgram({aprasas: event.target.value}));
-//     }
-//
-//     handlePhotoUrl(event) {
-//         this.props.dispatch(changeSportProgram({nuotraukosUrl: event.target.value}));
-//     }
-//
-//     saveSportProgram() {
-//
-//     }
-//
-//     handleSubmit(event) {
-//         event.preventDefault();
-//
-//     }
-//
-//     openSportProgramPage() {
-//         const {sportprogram} = this.props;
-//         const [name, setName] = useState(sportProgram ? sportProgram.pavadinimas : '');
-//
-//         const sportProgram = this.getSportProgram();
-//         // const name = sportProgram.pavadinimas
-//         const description = sportProgram.aprasas;
-//         const photoUrl = sportProgram.nuotraukosUrl;
-//         const exercises = sportProgram.sportoProgramosPratimas;
-//
-//         const deleteButton = this.props.sportprogram ? (
-//             <Button
-//                 variant="contained"
-//                 color="secondary"
-//                 style={{marginTop: '1vh', marginLeft: '1vw'}}
-//                 startIcon={<DeleteIcon/>}
-//             >
-//                 Delete
-//             </Button>
-//         ) : null;
-//
-//         return (
-//             <div>
-//                 <Typography variant="h4" component="h1">Sporto programos informacija</Typography>
-//                 <img src={photoUrl} height="200"/>
-//                 <form action="#" method="POST" onSubmit={this.handleSubmit}>
-//                     <FormGroup>
-//                         <FormControl className="formElement">
-//                             <InputLabel htmlFor="name">Pavadinimas</InputLabel>
-//                             <Input id="name" onChange={(e) => setName(e.target.value)} value={name}/>
-//                         </FormControl>
-//                         <FormControl className="formElement">
-//                             <InputLabel htmlFor="description">Aprašas</InputLabel>
-//                             <Input id="description" onChange={(e) => this.handleDescription(e)} value={description}/>
-//                         </FormControl>
-//                         <FormControl className="formElement">
-//                             <InputLabel htmlFor="photoUrl">Nuotraukos url</InputLabel>
-//                             <Input id="photoUrl" onChange={(e) => this.handlePhotoUrl(e)} value={photoUrl}/>
-//                         </FormControl>
-//                         <Typography variant="h5" component="h1">Pratimai</Typography>
-//                         {exercises.map(e => (
-//                             <div key={e.idSportoProgramosPratimas}>
-//                                 <FormControl className="formElement">
-//                                     <InputLabel htmlFor={`id${e.idSportoProgramosPratimas}`}>Pavadinimas</InputLabel>
-//                                     <Input id={`id${e.idSportoProgramosPratimas}`} value={e.fkPratimas.pavadinimas}/>
-//                                 </FormControl>
-//                                 <FormControl className="formElement">
-//                                     <InputLabel htmlFor={`desc${e.idSportoProgramosPratimas}`}>Aprašymas</InputLabel>
-//                                     <Input id={`desc${e.idSportoProgramosPratimas}`} value={e.fkPratimas.aprasymas}/>
-//                                 </FormControl>
-//                                 <FormControl className="formElement">
-//                                     <InputLabel htmlFor={`photoUrl${e.idSportoProgramosPratimas}`}>Nuotraukos
-//                                         url</InputLabel>
-//                                     <Input id={`photoUrl${e.idSportoProgramosPratimas}`}
-//                                            value={e.fkPratimas.nuotraukosUrl ? e.fkPratimas.nuotraukosUrl : ''}/>
-//                                 </FormControl>
-//                                 <FormControl className="formElement">
-//                                     <InputLabel htmlFor={`sets${e.idSportoProgramosPratimas}`}>Setai</InputLabel>
-//                                     <Input id={`sets${e.idSportoProgramosPratimas}`} value={e.setai}/>
-//                                 </FormControl>
-//                                 <FormControl className="formElement">
-//                                     <InputLabel htmlFor={`reps${e.idSportoProgramosPratimas}`}>Kartojimai</InputLabel>
-//                                     <Input id={`reps${e.idSportoProgramosPratimas}`} value={e.kartojimai}/>
-//                                 </FormControl>
-//                             </div>
-//                         ))}
-//                     </FormGroup>
-//                     <Button
-//                         variant="contained"
-//                         color="primary"
-//                         style={{marginTop: '1vh'}}
-//                         startIcon={<AddIcon/>}
-//                     >
-//                         Add New Exercise
-//                     </Button>
-//                     <div className="blockWrapperAlignRight">
-//                         <Button
-//                             variant="contained"
-//                             color="primary"
-//                             style={{marginTop: '1vh'}}
-//                             startIcon={<SaveIcon/>}
-//                             onClick={() => this.saveSportProgram()}
-//                         >
-//                             Update
-//                         </Button>
-//                         {deleteButton}
-//                     </div>
-//                 </form>
-//             </div>
-//         );
-//     }
-//
-//     render() {
-//         return this.openSportProgramPage();
-//     }
-// }

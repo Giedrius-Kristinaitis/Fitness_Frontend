@@ -13,6 +13,8 @@ import SportProgramList from "./component/sportprogram/sportProgramList";
 import {composeWithDevTools} from 'redux-devtools-extension';
 import ViewSportProgram from "./component/sportprogram/viewSportProgram";
 import CreateSportProgram from "./component/sportprogram/createSportProgram";
+import CoachesListView from "./component/coaches/coachesListView";
+import CoachList from "./component/coaches/coachList";
 
 const store = createStore(mainReducer, composeWithDevTools(applyMiddleware(middlewareThunk)));
 
@@ -26,6 +28,9 @@ const App = () => (
             <Route path="/sportprograms/all" component={SportProgramList}/>
             <Route path="/sportprograms/create" component={CreateSportProgram}/>
             <Route path="/sportprograms/view/:id" component={ViewSportProgram}/>
+
+            <Route path="/coaches/search" component={CoachesListView}/>
+            <Route path="/coaches/recommended" component={CoachList}/>
         </Router>
     </Provider>
 );

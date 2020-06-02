@@ -7,6 +7,7 @@ export const RECEIVE_SPORTPROGRAM = 'RECEIVE_SPORTPROGRAM';
 export const UPDATE_SPORTPROGRAM = 'UPDATE_SPORTPROGRAM';
 export const REQUEST_CREATE_SPORTPROGRAM = 'REQUEST_CREATE_SPORTPROGRAM';
 export const CREATE_SPORTPROGRAM_COMPLETED = 'CREATE_SPORTPROGRAM_COMPLETED';
+export const CREATE_SPORTPROGRAM_FAILED = 'CREATE_SPORTPROGRAM_FAILED';
 export const DELETE_SPORTPROGRAM_REQUEST = 'DELETE_SPORTPROGRAM_REQUEST';
 export const DELETE_SPORTPROGRAM_COMPLETED = 'DELETE_SPORTPROGRAM_COMPLETED';
 export const RESET_REDIRECTION = 'RESET_REDIRECTION';
@@ -14,17 +15,24 @@ export const ADD_NEW_EXERCISE = 'ADD_NEW_EXERCISE';
 export const UPDATE_SPORTPROGRAM_REQUEST = 'UPDATE_SPORTPROGRAM_REQUEST';
 export const UPDATE_SPORTPROGRAM_REQUEST_FAILED = 'UPDATE_SPORTPROGRAM_REQUEST_FAILED';
 export const UPDATE_SPORTPROGRAM_REQUEST_COMPLETED = 'UPDATE_SPORTPROGRAM_REQUEST_COMPLETED';
+export const RESET_MESSAGE = 'RESET_MESSAGE';
 
- function updateSportProgramRequest() {
+export function resetMessage() {
+    return {
+        type: RESET_MESSAGE
+    }
+}
+
+function updateSportProgramRequest() {
     return {
         type: UPDATE_SPORTPROGRAM_REQUEST
     }
 }
 
-function updateSportProgramFailed() {
+function updateSportProgramFailed(message) {
     return {
         type: UPDATE_SPORTPROGRAM_REQUEST_FAILED,
-        message: 'Error'
+        message
     }
 }
 
@@ -131,8 +139,24 @@ export function createSportProgram(sportProgram) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(sportProgram)
-        }).then(response => response.json())
-            .then(json => dispatch(createSportProgramCompleted(json)));
+        }).then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                return response.text().then(text => {
+                    throw new Error("Bad input data")
+                });
+            }
+        })
+            .then(json => dispatch(createSportProgramCompleted(json)))
+            .catch(e => dispatch(createSportProgramFailed(e)))
+    }
+}
+
+export function createSportProgramFailed(message) {
+    return {
+        type: CREATE_SPORTPROGRAM_FAILED,
+        message
     }
 }
 
@@ -145,9 +169,15 @@ export function editSportProgram(sportProgram) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(sportProgram)
-        }).then(response => response.json())
+        }).then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                return response.text().then(text => {throw new Error("Bad input data")});
+            }
+        })
             .then(json => dispatch(updateSportProgramCompleted(json)))
-            .catch(() => dispatch(updateSportProgramFailed()));
+            .catch((e) => dispatch(updateSportProgramFailed(e)));
     }
 }
 
