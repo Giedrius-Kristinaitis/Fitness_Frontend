@@ -53,7 +53,7 @@ const convertCompetitionToRequestBody = (competition: Competition): object => {
     }
 }
 
-const getAll: Function = (dispatch: Dispatch) => {
+const openCompetitionsListView: Function = (dispatch: Dispatch) => {
     dispatch(createFetchAllCompetitionsStartedAction());
 
     return fetch(`${config.BACKEND_URL}api/competitions`, {
@@ -69,7 +69,7 @@ const getAll: Function = (dispatch: Dispatch) => {
         .catch(() => dispatch(createFetchAllCompetitionsFailedAction()));
 }
 
-const getById: Function = (id: number, dispatch: Dispatch) => {
+const openCompetitionEditPage: Function = (id: number, dispatch: Dispatch) => {
     dispatch(createFetchSingleCompetitionStartedAction());
 
     return fetch(`${config.BACKEND_URL}api/competitions/${id}`, {
@@ -85,7 +85,7 @@ const getById: Function = (id: number, dispatch: Dispatch) => {
         .catch(() => dispatch(createFetchSingleCompetitionFailedAction()));
 }
 
-const create: Function = (competition: Competition, dispatch: Dispatch) => {
+const createCompetition: Function = (competition: Competition, dispatch: Dispatch) => {
     dispatch(createCreateCompetitionStartedAction());
 
     return fetch(`${config.BACKEND_URL}api/competitions`, {
@@ -99,7 +99,7 @@ const create: Function = (competition: Competition, dispatch: Dispatch) => {
         .catch(() => dispatch(createCreateCompetitionFailedAction()));
 }
 
-const update: Function = (competition: Competition, dispatch: Dispatch) => {
+const updateCompetition: Function = (competition: Competition, dispatch: Dispatch) => {
     dispatch(createUpdateCompetitionStartedAction());
 
     return fetch(`${config.BACKEND_URL}api/competitions/${competition.id}`, {
@@ -127,7 +127,7 @@ const joinCompetition: Function = (competition: Competition, userId: number, dis
         .catch(() => dispatch(createJoinCompetitionFailedAction()));
 }
 
-const deleteById: Function = (id: number, dispatch: Dispatch) => {
+const deleteCompetition: Function = (id: number, dispatch: Dispatch) => {
     dispatch(createDeleteCompetitionStartedAction());
 
     return fetch(`${config.BACKEND_URL}api/competitions/${id}`, {
@@ -137,4 +137,4 @@ const deleteById: Function = (id: number, dispatch: Dispatch) => {
         .catch(() => dispatch(createDeleteCompetitionFailedAction()));
 }
 
-export { getAll, getById, create, update, deleteById, joinCompetition };
+export { openCompetitionsListView, openCompetitionEditPage, createCompetition, updateCompetition, deleteCompetition, joinCompetition };

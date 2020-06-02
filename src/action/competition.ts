@@ -2,29 +2,28 @@ import { ACTIONS } from "./index";
 import { Competition } from "../state/competition";
 import { Dispatch } from 'redux';
 import {
-    create,
-    deleteById,
-    getAll,
-    getById,
-    update,
-    joinCompetition
+    createCompetition,
+    deleteCompetition,
+    openCompetitionsListView,
+    openCompetitionEditPage,
+    joinCompetition, updateCompetition
 } from "../service/competition/competition-service";
 
 export const createFetchAllCompetitionsAction = () => {
     return (dispatch: Dispatch) => {
-        getAll(dispatch);
+        openCompetitionsListView(dispatch);
     }
 }
 
 export const createFetchSingleCompetitionAction = (id: number) => {
     return (dispatch: Dispatch) => {
-        getById(id, dispatch);
+        openCompetitionEditPage(id, dispatch);
     }
 }
 
 export const createUpdateCompetitionAction = (competition: Competition) => {
     return (dispatch: Dispatch) => {
-        update(competition, dispatch);
+        updateCompetition(competition, dispatch);
     }
 }
 
@@ -36,13 +35,13 @@ export const createJoinCompetitionAction = (competition: Competition, userId: nu
 
 export const createDeleteCompetitionAction = (id: number) => {
     return (dispatch: Dispatch) => {
-        deleteById(id, dispatch);
+        deleteCompetition(id, dispatch);
     }
 }
 
 export const createCreateCompetitionAction = (competition: Competition) => {
     return (dispatch: Dispatch) => {
-        create(competition, dispatch);
+        createCompetition(competition, dispatch);
     }
 }
 
