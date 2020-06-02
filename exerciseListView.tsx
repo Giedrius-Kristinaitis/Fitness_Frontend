@@ -12,7 +12,10 @@ import {Exercise, ExerciseUIListState} from "../../state/exercise";
 import {
     createDeleteExerciseAction,
     createExerciseResetRedirectRequiredAction,
-    createFetchAllExercisesAction, createFetchAllUserExercisesAction, createFetchAllUserExercisesCompletedAction
+    createFetchAllExercisesAction,
+    createFetchAllExercisesCompletedAction,
+    createFetchAllUserExercisesAction,
+    createFetchAllUserExercisesCompletedAction
 } from "../../action/exercise";
 import {AppState, FormMessageType} from "../../state";
 import {Button, LinearProgress, Typography} from "@material-ui/core";
@@ -57,7 +60,7 @@ const extractExercisesFromState = (state: AppState): Exercise[] => {
     return exercises;
 }
 
-const ExerciseList: React.FC = () => {
+const ExerciseListView: React.FC = () => {
     const props: ExerciseProps = useSelector((state: AppState) => {
         return {
             exercises: extractExercisesFromState(state),
@@ -70,12 +73,12 @@ const ExerciseList: React.FC = () => {
 
 
     const deleteItem: Function = (exerciseId: number) => {
-        dispatch(createDeleteExerciseAction(exerciseId));
+        //dispatch(createDeleteExerciseAction(exerciseId));
         //dispatch(createFetchAllUserExercisesAction(1));
 
         const items = props.exercises.filter(item => item.id !== exerciseId);
         props.exercises = items;
-        dispatch(createFetchAllUserExercisesCompletedAction(items))
+        dispatch(createFetchAllExercisesCompletedAction(items))
 
         //history.push(`/exercise/all`);
     }
@@ -84,7 +87,7 @@ const ExerciseList: React.FC = () => {
     useEffect(() => {
         dispatch(createExerciseResetRedirectRequiredAction());
         // @ts-ignore
-        dispatch(createFetchAllUserExercisesAction(1));
+        dispatch(createFetchAllExercisesAction());
     }, [ dispatch ]);
 
     const newExerciseClicked = () => {
@@ -165,4 +168,4 @@ const ExerciseList: React.FC = () => {
     );
 }
 
-export default ExerciseList;
+export default ExerciseListView;

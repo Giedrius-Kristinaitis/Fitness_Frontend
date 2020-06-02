@@ -89,6 +89,7 @@ export function exerciseUIReducer(
                 exerciseProcessing: false,
                 exerciseFormMessage: 'Successfully updated',
                 exerciseFormMessageType: FormMessageType.MESSAGE_SUCCESS,
+                redirectToListRequired: true
             };
         case ACTIONS.ACTION_EXERCISE_FETCH_SINGLE_COMPLETED:
             return { ...state, exerciseProcessing: false };

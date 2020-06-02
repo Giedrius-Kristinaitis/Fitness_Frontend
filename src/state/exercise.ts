@@ -7,7 +7,7 @@ export interface Exercise {
     videoUrl: string,
     evalDate: string,
     sportsmanId: number,
-
+    trainerId: number,
     sportId: number,
     sportName: string,
 }

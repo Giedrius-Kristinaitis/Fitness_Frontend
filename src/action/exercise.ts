@@ -1,7 +1,7 @@
 import { ACTIONS } from "./index";
 import { Exercise } from "../state/exercise";
 import { Dispatch } from 'redux';
-import { CreateExercise, DeleteExercise, GetAllCompletedExercises, GetCompletedExercisesForUser, GetExercise, UpdateExercise } from "../service/exercise/exercise-service";
+import { CreateExercise, DeleteExercise, GetAllCompletedExercises, GetCompletedExercisesForUser, GetExercise, UpdateExercise, InsertRating, DeleteRating } from "../service/exercise/exercise-service";
 
 export const createFetchAllExercisesAction = () => {
     return (dispatch: Dispatch) => {
@@ -31,7 +31,16 @@ export const createDeleteExerciseAction = (id: number) => {
         DeleteExercise(id, dispatch);
     }
 }
-
+export const createInsertRateExerciseAction = (exercise: Exercise) => {
+    return (dispatch: Dispatch) => {
+        InsertRating(exercise, dispatch);
+    }
+}
+export const createDeleteRateExerciseAction = (id: number) => {
+    return (dispatch: Dispatch) => {
+        DeleteRating(id, dispatch);
+    }
+}
 export const createCreateExerciseAction = (exercise: Exercise) => {
     return (dispatch: Dispatch) => {
         CreateExercise(exercise, dispatch);

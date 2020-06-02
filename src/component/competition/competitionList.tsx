@@ -9,13 +9,18 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import {Competition, CompetitionUIListState} from "../../state/competition";
-import {createCompetitionResetRedirectRequiredAction, createFetchAllCompetitionsAction} from "../../action/competition";
+import {
+    createCompetitionResetRedirectRequiredAction, createDeleteCompetitionAction,
+    createFetchAllCompetitionsAction,
+    createFetchAllCompetitionsCompletedAction, createJoinCompetitionAction
+} from "../../action/competition";
 import {AppState, FormMessageType} from "../../state";
 import {Button, LinearProgress, Typography} from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import {history} from "../../customHistory";
 import Snackbar from "@material-ui/core/Snackbar";
 import {Alert} from "../alert";
+import {createFetchAllUserExercisesCompletedAction} from "../../action/exercise";
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -79,7 +84,25 @@ const CompetitionList: React.FC = () => {
     const newCompetitionClicked = () => {
         history.push('/competition/create');
     }
+    const deleteItem: Function = (competitionId: number) => {
+        dispatch(createDeleteCompetitionAction(competitionId));
+        //dispatch(createFetchAllUserExercisesAction(1));
 
+        const items = props.competitions.filter(item => item.id !== competitionId);
+        props.competitions = items;
+        dispatch(createFetchAllCompetitionsCompletedAction(items))
+        setMessageOpen(true);
+        //history.push(`/exercise/all`);
+    }
+    const joinCompetition: Function = (competition: Competition) => {
+        dispatch(createJoinCompetitionAction(competition,1));
+        //dispatch(createFetchAllUserExercisesAction(1));
+        setMessageOpen(true);
+
+        //dispatch(createFetchAllCompetitionsCompletedAction(items))
+
+        //history.push(`/exercise/all`);
+    }
     const { listMessage, listMessageType } = useSelector((state: AppState) => {
         return {
             listMessage: state.competitionUIReducer.competitionListMessage,
@@ -102,18 +125,31 @@ const CompetitionList: React.FC = () => {
                         <StyledTableCell align="right">Location</StyledTableCell>
                         <StyledTableCell align="right">Starts On</StyledTableCell>
                         <StyledTableCell align="right">Ends On</StyledTableCell>
+                        <StyledTableCell align="right">Actions</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {props.competitions.map((competition: Competition) => (
                         <TableRow className="tableRow" key={competition.id}
-                                  onClick={() => itemClicked(competition.id)}>
+                                  >
                             <StyledTableCell component="th" scope="row">{competition.name}</StyledTableCell>
                             <StyledTableCell align="right">{competition.location}</StyledTableCell>
                             <StyledTableCell
                                 align="right">{new Date(competition.startingDate).toLocaleString('lt-LT')}</StyledTableCell>
                             <StyledTableCell
                                 align="right">{new Date(competition.endingDate).toLocaleString('lt-LT')}</StyledTableCell>
+                            <StyledTableCell
+                                align="right">
+                                <button  onClick={(e) => { if (window.confirm('Do you want to join this competition??')) joinCompetition(competition)  } }>
+                                    Join
+                                </button>
+                                <button  onClick={(e) => { itemClicked(competition.id) } }>
+                                    Update
+                                </button>
+                                <button  onClick={(e) => { if (window.confirm('Are you sure you wish to delete this item?')) deleteItem(competition.id) } }>
+                                    Delete
+                                </button>
+                            </StyledTableCell>
                         </TableRow>
                     ))}
                 </TableBody>

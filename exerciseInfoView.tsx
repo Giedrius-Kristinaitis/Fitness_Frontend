@@ -38,7 +38,7 @@ interface ExerciseFormProps {
     exercise: Exercise | null,
 }
 
-const ExerciseForm: React.FC<ExerciseFormProps> = (props: ExerciseFormProps) => {
+const ExerciseInfoView: React.FC<ExerciseFormProps> = (props: ExerciseFormProps) => {
     const redirectRequired = useSelector((state: AppState) => {
         return state.exerciseUIReducer.redirectToListRequired;
     });
@@ -59,7 +59,7 @@ const ExerciseForm: React.FC<ExerciseFormProps> = (props: ExerciseFormProps) => 
     const [ messageOpen, setMessageOpen ] = useState<boolean>(true);
 
     const [ deleteRequired, setDeleteRequired ] = useState<boolean>(false);
-    const [ sportId, setSport ] = useState<string>(exercise ? exercise.sportId.toString() : '1');
+    const [ sportId, setSport ] = useState();
     const [ videoUrl, setVideoURL ] = useState<string>(exercise ? exercise.videoUrl : '');
     const [ num, setNum ] = useState<string>(exercise ? exercise.num.toString() : '');
 
@@ -80,7 +80,7 @@ const ExerciseForm: React.FC<ExerciseFormProps> = (props: ExerciseFormProps) => 
             return;
         }
 
-        setSport(exercise.sportId.toString());
+        setSport(exercise.sportId);
         setVideoURL(exercise.videoUrl);
         setNum(exercise.num.toString());
 
@@ -129,12 +129,16 @@ const ExerciseForm: React.FC<ExerciseFormProps> = (props: ExerciseFormProps) => 
                             value={sportId}
                             onChange={handleSportChange}
                         >
-                            <MenuItem value='1'>Sit-Up</MenuItem>
-                            <MenuItem value='2'>Bench Press</MenuItem>
-                            <MenuItem value='3'>Crunches</MenuItem>
+                            <MenuItem value={1}>Sit-Up</MenuItem>
+                            <MenuItem value={2}>Bench Press</MenuItem>
+                            <MenuItem value={3}>Crunches</MenuItem>
                         </Select>
                     </FormControl>
-
+                    <FormControl className="formElement">
+                        <InputLabel htmlFor="exerciseNum">Number of selected exercises</InputLabel>
+                        <Input value={num} onChange={handleNumChange} id="exerciseNum"
+                               aria-describedby="my-helper-text"/>
+                    </FormControl>
                     <FormControl className="formElement">
                         <InputLabel htmlFor="exerciseURL">Video URL</InputLabel>
                         <Input value={videoUrl} onChange={handleUrlChange} id="exerciseURL"
@@ -149,7 +153,7 @@ const ExerciseForm: React.FC<ExerciseFormProps> = (props: ExerciseFormProps) => 
                         color="primary"
                         className={classes.button}
                         startIcon={<SaveIcon/>}
-                        onClick={() => actionButtonAction(sportId, videoUrl, 1)}
+                        onClick={() => actionButtonAction(videoUrl, num, sportId)}
                     >
                         {actionButtonText}
                     </Button>
@@ -160,4 +164,4 @@ const ExerciseForm: React.FC<ExerciseFormProps> = (props: ExerciseFormProps) => 
     );
 };
 
-export default ExerciseForm;
+export default ExerciseInfoView;

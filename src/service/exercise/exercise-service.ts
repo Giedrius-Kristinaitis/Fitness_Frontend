@@ -41,7 +41,8 @@ const extractSingleExerciseFromResponse = (data: any): Exercise => {
         evalDate: data.ivertinimoData,
         sportId: data.fkPratimasId,
         sportName: data.fkPratimas.pavadinimas,
-        sportsmanId: 1
+        sportsmanId: 1,
+        trainerId: data.fkTrenerisId
     };
 }
 
@@ -52,6 +53,7 @@ const convertExerciseToRequestBody = (exercise: Exercise): object => {
         vaizdoIrasasUrl: exercise.videoUrl,
         fkPratimasId: exercise.sportId,
         fkSportininkasId: exercise.sportsmanId,
+        fkTrenerisId: exercise.trainerId,
         ivertinimoData: new Date(exercise.evalDate).toISOString(),
     }
 }
@@ -151,7 +153,32 @@ const DeleteExercise: Function = (id: number, dispatch: Dispatch) => {
         .then(() => dispatch(createDeleteExerciseCompletedAction()))
         .catch(() => dispatch(createDeleteExerciseFailedAction()));
 }
+const DeleteRating: Function = (id: number, dispatch: Dispatch) => {
+    dispatch(createDeleteExerciseStartedAction());
 
+    return fetch(`${config.BACKEND_URL}api/exercises/rating/delete/${id}`, {
+        method: 'PUT',
+        headers: {
+            origin: 'http://127.0.0.1:3000',
+
+        },
+    })
+        .then(() => dispatch(createDeleteExerciseCompletedAction()))
+        .catch(() => dispatch(createDeleteExerciseFailedAction()));
+}
+const InsertRating: Function = (exercise: Exercise, dispatch: Dispatch) => {
+    dispatch(createCreateExerciseStartedAction());
+
+    return fetch(`${config.BACKEND_URL}api/exercises/rating/insert/${exercise.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(convertExerciseToRequestBody(exercise)),
+    })
+        .then(() => dispatch(createCreateExerciseCompletedAction()))
+        .catch(() => dispatch(createCreateExerciseFailedAction()));
+}
 /*const openSportsProgramsList: Function = (id: number, dispatch: Dispatch) => {
     dispatch(createFetchAllSportsProgramsStartedAction());
 
@@ -182,4 +209,4 @@ const CreateSportsProgram: Function = (exercise: Exercise, dispatch: Dispatch) =
         .catch(() => dispatch(createCreateExerciseFailedAction()));
 }*/
 
-export { GetAllCompletedExercises, GetCompletedExercisesForUser, GetExercise, CreateExercise, UpdateExercise, DeleteExercise };
+export { GetAllCompletedExercises, GetCompletedExercisesForUser, GetExercise, CreateExercise, UpdateExercise, DeleteExercise, InsertRating, DeleteRating };

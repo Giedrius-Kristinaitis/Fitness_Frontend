@@ -18,12 +18,13 @@ const CreateExerciseForm: React.FC = () => {
         dispatch(createCreateExerciseAction(exercise));
     }, [dispatch, exercise, createRequired]);
 
-    const actionButtonAction: Function = (videoUrl: string, sportsmanId: number, sportId: number,) => {
+    const actionButtonAction: Function = (sportId: number, videoUrl: string, sportsmanId: number, ) => {
         setExercise({
             id: 100,
             videoUrl,
             sportsmanId,
-            sportId, eval: 0, evalDate: "", num: 0, sportName: ""
+            trainerId:0,
+            sportId, eval: 0, evalDate: "", num:0, sportName: ""
         });
 
         setCreateRequired(true);

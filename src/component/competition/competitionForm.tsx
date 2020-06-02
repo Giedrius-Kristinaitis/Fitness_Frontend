@@ -185,7 +185,6 @@ const CompetitionForm: React.FC<CompetitionFormProps> = (props: CompetitionFormP
                     >
                         {actionButtonText}
                     </Button>
-                    {deleteButton}
                 </div>
             </form>
             {message}

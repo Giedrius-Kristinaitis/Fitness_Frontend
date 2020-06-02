@@ -55,7 +55,7 @@ const sportsmanClicked = () => {
     history.push('/competition/all');
 }
 const trainerClicked = () => {
-    history.push('/competition/all');
+    history.push('/trainer/exercise/all');
 }
 
 const MainPage: React.FC = () => {
@@ -116,7 +116,7 @@ const MainPage: React.FC = () => {
                     startIcon={<AddIcon/>}
                     onClick={() => trainerClicked()}
                 >
-                    Trainer View
+                    Trainer/Rate exercise
                 </Button>
             </div>
         </div>
