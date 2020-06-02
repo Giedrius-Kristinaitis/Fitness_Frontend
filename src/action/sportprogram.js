@@ -11,6 +11,29 @@ export const DELETE_SPORTPROGRAM_REQUEST = 'DELETE_SPORTPROGRAM_REQUEST';
 export const DELETE_SPORTPROGRAM_COMPLETED = 'DELETE_SPORTPROGRAM_COMPLETED';
 export const RESET_REDIRECTION = 'RESET_REDIRECTION';
 export const ADD_NEW_EXERCISE = 'ADD_NEW_EXERCISE';
+export const UPDATE_SPORTPROGRAM_REQUEST = 'UPDATE_SPORTPROGRAM_REQUEST';
+export const UPDATE_SPORTPROGRAM_REQUEST_FAILED = 'UPDATE_SPORTPROGRAM_REQUEST_FAILED';
+export const UPDATE_SPORTPROGRAM_REQUEST_COMPLETED = 'UPDATE_SPORTPROGRAM_REQUEST_COMPLETED';
+
+ function updateSportProgramRequest() {
+    return {
+        type: UPDATE_SPORTPROGRAM_REQUEST
+    }
+}
+
+function updateSportProgramFailed() {
+    return {
+        type: UPDATE_SPORTPROGRAM_REQUEST_FAILED,
+        message: 'Error'
+    }
+}
+
+function updateSportProgramCompleted(sportprogram) {
+    return {
+        type: UPDATE_SPORTPROGRAM_REQUEST_COMPLETED,
+        updated: sportprogram,
+    }
+}
 
 export function addNewExercise(sportProgramId, exercise = {}) {
     return {
@@ -52,12 +75,12 @@ function createSportProgramCompleted(json) {
     }
 }
 
-export function updateSportProgram(data) {
-    return {
-        type: UPDATE_SPORTPROGRAM,
-        updatedSportProgram: data,
-    }
-}
+// export function updateSportProgram(data) {
+//     return {
+//         type: UPDATE_SPORTPROGRAM,
+//         updatedSportProgram: data,
+//     }
+// }
 
 
 export function requestSportPrograms() {
@@ -110,6 +133,21 @@ export function createSportProgram(sportProgram) {
             body: JSON.stringify(sportProgram)
         }).then(response => response.json())
             .then(json => dispatch(createSportProgramCompleted(json)));
+    }
+}
+
+export function editSportProgram(sportProgram) {
+    return dispatch => {
+        dispatch(updateSportProgramRequest());
+        return fetch(`${config.BACKEND_URL}api/sportPrograms/${sportProgram.idSportoPrograma}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(sportProgram)
+        }).then(response => response.json())
+            .then(json => dispatch(updateSportProgramCompleted(json)))
+            .catch(() => dispatch(updateSportProgramFailed()));
     }
 }
 

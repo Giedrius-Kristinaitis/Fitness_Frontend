@@ -6,7 +6,7 @@ import {
     UPDATE_SPORTPROGRAM,
     CREATE_SPORTPROGRAM_COMPLETED,
     DELETE_SPORTPROGRAM_COMPLETED,
-    RESET_REDIRECTION, ADD_NEW_EXERCISE
+    RESET_REDIRECTION, ADD_NEW_EXERCISE, UPDATE_SPORTPROGRAM_REQUEST_COMPLETED
 } from "../action/sportprogram";
 
 const sportProgramsReducer = (state = {isFetching: false, sportprograms: []}, action) => {
@@ -45,6 +45,8 @@ const sportProgramsReducer = (state = {isFetching: false, sportprograms: []}, ac
             }
 
             return {...state, sportprograms: allSportPrograms}
+        case UPDATE_SPORTPROGRAM_REQUEST_COMPLETED:
+            return {...state, redirectToListRequired: true, updated: action.updated}
         default:
             return state;
     }

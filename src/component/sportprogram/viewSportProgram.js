@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {fetchSportProgram} from "../../action/sportprogram";
 import {connect, useSelector} from "react-redux";
 import SportProgramForm from "./sportProgramForm";
@@ -7,6 +7,7 @@ import sportProgramsReducer from "../../reducer/sportprogram";
 
 const ViewSportProgram = (props) => {
     const {id} = useParams();
+
 
     const getSportProgram = useSelector((state) => {
         if(!id) {
@@ -22,7 +23,10 @@ const ViewSportProgram = (props) => {
         return null;
     });
 
-    const openSportProgramPage = <SportProgramForm sportprogram={getSportProgram}/>
+    const [sportProgram, setSportProgram] = useState({...getSportProgram});
+
+
+    const openSportProgramPage = <SportProgramForm sportprogram={sportProgram} updateSportProgram={setSportProgram}/>
     return openSportProgramPage;
 }
 

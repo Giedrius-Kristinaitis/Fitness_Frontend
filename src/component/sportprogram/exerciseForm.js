@@ -5,30 +5,40 @@ import Input from "@material-ui/core/Input";
 
 const ExerciseForm = (props) => {
     const {exercise} = props;
-    const e = exercise;
+
+    if(!exercise) {
+        return;
+    }
+
+    const id = exercise.idSportoProgramosPratimas ? exercise.idSportoProgramosPratimas : '';
+    const name = exercise.fkPratimas ? exercise.fkPratimas.pavadinimas : '';
+    const description = exercise.fkPratimas ? exercise.fkPratimas.aprasymas : '';
+    const nuotraukosUrl = exercise.fkPratimas ? exercise.fkPratimas.nuotraukosUrl : '';
+    const sets = exercise.setai ? exercise.setai : '';
+    const reps = exercise.repai ? exercise.repai : '';
+
     return (
         <div>
             <FormControl className="formElement">
-                <InputLabel htmlFor={`id${e.idSportoProgramosPratimas}`}>Pavadinimas</InputLabel>
-                <Input id={`id${e.idSportoProgramosPratimas}`} value={e.fkPratimas.pavadinimas}/>
+                <InputLabel htmlFor={name}>Pavadinimas</InputLabel>
+                <Input id={name} value={name}/>
             </FormControl>
             <FormControl className="formElement">
-                <InputLabel htmlFor={`desc${e.idSportoProgramosPratimas}`}>Aprašymas</InputLabel>
-                <Input id={`desc${e.idSportoProgramosPratimas}`} value={e.fkPratimas.aprasymas}/>
+                <InputLabel htmlFor={description}>Aprašymas</InputLabel>
+                <Input id={description} value={description}/>
             </FormControl>
             <FormControl className="formElement">
-                <InputLabel htmlFor={`photoUrl${e.idSportoProgramosPratimas}`}>Nuotraukos
-                    url</InputLabel>
-                <Input id={`photoUrl${e.idSportoProgramosPratimas}`}
-                       value={e.fkPratimas.nuotraukosUrl ? e.fkPratimas.nuotraukosUrl : ''}/>
+                <InputLabel htmlFor={nuotraukosUrl}>Nuotraukos url</InputLabel>
+                <Input id={nuotraukosUrl}
+                       value={nuotraukosUrl}/>
             </FormControl>
             <FormControl className="formElement">
-                <InputLabel htmlFor={`sets${e.idSportoProgramosPratimas}`}>Setai</InputLabel>
-                <Input id={`sets${e.idSportoProgramosPratimas}`} value={e.setai}/>
+                <InputLabel htmlFor={sets}>Setai</InputLabel>
+                <Input id={sets} value={sets}/>
             </FormControl>
             <FormControl className="formElement">
-                <InputLabel htmlFor={`reps${e.idSportoProgramosPratimas}`}>Kartojimai</InputLabel>
-                <Input id={`reps${e.idSportoProgramosPratimas}`} value={e.kartojimai}/>
+                <InputLabel htmlFor={reps}>Kartojimai</InputLabel>
+                <Input id={reps} value={reps}/>
             </FormControl>
         </div>
     );

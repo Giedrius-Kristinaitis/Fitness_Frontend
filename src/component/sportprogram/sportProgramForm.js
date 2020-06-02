@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import FormGroup from "@material-ui/core/FormGroup";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -10,14 +10,16 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import {
     addNewExercise,
     createSportProgram,
-    deleteSportProgram,
+    deleteSportProgram, editSportProgram,
     resetRedirection,
-    updateSportProgram
 } from "../../action/sportprogram";
 import {useDispatch, useSelector} from "react-redux";
 import {history} from "../../customHistory";
 import {useParams} from "react-router";
 import ExerciseForm from "./exerciseForm";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import Exercises from "../../state/exercises";
 
 const SportProgramForm = (props) => {
     const dispatch = useDispatch();
@@ -31,7 +33,7 @@ const SportProgramForm = (props) => {
         history.push('/sportprograms/all');
     }
 
-    const {sportprogram} = props;
+    const {sportprogram, updateSportProgram} = props;
     const {id} = useParams();
 
 
@@ -40,13 +42,41 @@ const SportProgramForm = (props) => {
     const [photoUrl, setPhotoUrl] = useState(sportprogram ? sportprogram.nuotraukosUrl : '');
     const [exercises, setExercise] = useState(sportprogram ? sportprogram.sportoProgramosPratimas : []);
 
+    const [selection, setSelection] = useState(1);
+    const handleSelection = (event) => {
+        setSelection(event.target.value);
+        console.log(selection);
+    }
+
     const isEditing = sportprogram ? !!sportprogram.idSportoPrograma : false;
 
     const handleSubmit = () => {
         const updatedSportProgram = {pavadinimas: name, aprasas: description, nuotraukosUrl: photoUrl, fkTrenerisId: 2};
 
         if (isEditing) {
-            dispatch(updateSportProgram(updatedSportProgram));
+            let newExercise = {};
+            if (selection === 1) {
+                newExercise = Exercises[0];
+            } else if (selection === 2) {
+                newExercise = Exercises[1];
+            }
+
+            const updatedProgram = {
+                ...sportprogram,
+                pavadinimas: name,
+                aprasas: description,
+                nuotraukosUrl: photoUrl,
+                FkTrenerisId: 2,
+                sportoProgramosPratimas: [
+                    newExercise
+                ]
+            };
+
+
+            console.log(JSON.stringify(updatedProgram));
+            dispatch(editSportProgram(updatedProgram));
+            // updateSportProgram(updatedSportProgram);
+            // dispatch(updateSportProgram(sportprogram));
         } else {
             dispatch(createSportProgram(updatedSportProgram));
         }
@@ -57,7 +87,10 @@ const SportProgramForm = (props) => {
     }
 
     const addNewExerciseForm = () => {
-        dispatch(addNewExercise(id, {}))
+        let shit = {...sportprogram};
+        shit.sportoProgramosPratimas.push({});
+        updateSportProgram(shit);
+        // dispatch(addNewExercise(id, {}))
     }
 
     const deleteButton = sportprogram ? sportprogram.idSportoPrograma ? <Button
@@ -69,6 +102,27 @@ const SportProgramForm = (props) => {
     >
         Delete
     </Button> : null : null;
+
+    const showExercises = exercises ? exercises.map((e, index) => (
+        <ExerciseForm key={index} exercise={e}/>
+    )) : null;
+
+    const newExerciseSelection = (
+        <div>
+            <InputLabel id="demo-simple-select-placeholder-label-label">Naujas pratimas</InputLabel>
+            <Select
+                labelId="demo-simple-select-placeholder-label-label"
+                id="demo-simple-select-placeholder-label"
+                value={selection}
+                onChange={handleSelection}
+                style={{minWidth: '20vw'}}
+            >
+                <MenuItem value={1}>-</MenuItem>
+                <MenuItem value={2}>pirmas pratimas (pirmo pratymo aprasymas) -> 1 verte</MenuItem>
+                <MenuItem value={3}>antras pratimas (antro pratymo aprasymas) -> 2 verte</MenuItem>
+            </Select>
+        </div>
+    );
 
     return (
         <div>
@@ -89,9 +143,8 @@ const SportProgramForm = (props) => {
                         <Input id="photoUrl" onChange={(e) => setPhotoUrl(e.target.value)} value={photoUrl}/>
                     </FormControl>
                     <Typography variant="h5" component="h1">Pratimai</Typography>
-                    {exercises.map(e => (
-                        <ExerciseForm key={e.fkPratimas} exercise={e} />
-                    ))}
+                    {showExercises}
+                    {newExerciseSelection}
                     {/*{exercises.map(e => (*/}
                     {/*    <div key={e.idSportoProgramosPratimas}>*/}
                     {/*        <FormControl className="formElement">*/}
