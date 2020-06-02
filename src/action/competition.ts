@@ -1,7 +1,14 @@
 import { ACTIONS } from "./index";
 import { Competition } from "../state/competition";
 import { Dispatch } from 'redux';
-import { create, deleteById, getAll, getById, update } from "../service/competition/competition-service";
+import {
+    create,
+    deleteById,
+    getAll,
+    getById,
+    update,
+    joinCompetition
+} from "../service/competition/competition-service";
 
 export const createFetchAllCompetitionsAction = () => {
     return (dispatch: Dispatch) => {
@@ -18,6 +25,12 @@ export const createFetchSingleCompetitionAction = (id: number) => {
 export const createUpdateCompetitionAction = (competition: Competition) => {
     return (dispatch: Dispatch) => {
         update(competition, dispatch);
+    }
+}
+
+export const createJoinCompetitionAction = (competition: Competition, userId: number) => {
+    return (dispatch: Dispatch) => {
+        joinCompetition(competition, userId, dispatch);
     }
 }
 
@@ -86,7 +99,23 @@ export const createUpdateCompetitionCompletedAction = () => {
         type: ACTIONS.ACTION_COMPETITION_UPDATE_COMPLETED,
     }
 };
+export const createJoinCompetitionStartedAction = () => {
+    return {
+        type: ACTIONS.ACTION_COMPETITION_JOIN_STARTED,
+    }
+};
 
+export const createJoinCompetitionFailedAction = () => {
+    return {
+        type: ACTIONS.ACTION_COMPETITION_JOIN_FAILED,
+    }
+};
+
+export const createJoinCompetitionCompletedAction = () => {
+    return {
+        type: ACTIONS.ACTION_COMPETITION_JOIN_COMPLETED,
+    }
+};
 export const createFetchAllCompetitionsStartedAction = () => {
     return {
         type: ACTIONS.ACTION_COMPETITION_FETCH_ALL_STARTED,

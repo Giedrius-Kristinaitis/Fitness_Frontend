@@ -12,9 +12,6 @@ import {
     createFetchSingleCompetitionCompletedAction,
     createFetchSingleCompetitionFailedAction,
     createFetchSingleCompetitionStartedAction,
-    createJoinCompetitionCompletedAction,
-    createJoinCompetitionFailedAction,
-    createJoinCompetitionStartedAction,
     createUpdateCompetitionCompletedAction,
     createUpdateCompetitionFailedAction,
     createUpdateCompetitionStartedAction
@@ -112,20 +109,6 @@ const update: Function = (competition: Competition, dispatch: Dispatch) => {
         .then(() => dispatch(createUpdateCompetitionCompletedAction()))
         .catch(() => dispatch(createUpdateCompetitionFailedAction()));
 }
-const joinCompetition: Function = (competition: Competition, userId: number, dispatch: Dispatch) => {
-    dispatch(createJoinCompetitionStartedAction());
-
-    return fetch(`${config.BACKEND_URL}api/competitions/join/${competition.id}/${userId}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(convertCompetitionToRequestBody(competition)),
-    })
-        .then(response => response.json())
-        .then(() => dispatch(createJoinCompetitionCompletedAction()))
-        .catch(() => dispatch(createJoinCompetitionFailedAction()));
-}
 
 const deleteById: Function = (id: number, dispatch: Dispatch) => {
     dispatch(createDeleteCompetitionStartedAction());
@@ -137,4 +120,4 @@ const deleteById: Function = (id: number, dispatch: Dispatch) => {
         .catch(() => dispatch(createDeleteCompetitionFailedAction()));
 }
 
-export { getAll, getById, create, update, deleteById, joinCompetition };
+export { getAll, getById, create, update, deleteById };

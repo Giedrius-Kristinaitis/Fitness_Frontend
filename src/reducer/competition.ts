@@ -51,6 +51,7 @@ export function competitionUIReducer(
         case ACTIONS.ACTION_COMPETITION_UPDATE_STARTED:
         case ACTIONS.ACTION_COMPETITION_DELETE_STARTED:
         case ACTIONS.ACTION_COMPETITION_CREATE_STARTED:
+        case ACTIONS.ACTION_COMPETITION_JOIN_STARTED:
         case ACTIONS.ACTION_COMPETITION_FETCH_SINGLE_STARTED:
             return {
                 ...state,
@@ -61,17 +62,23 @@ export function competitionUIReducer(
         case ACTIONS.ACTION_COMPETITION_UPDATE_FAILED:
         case ACTIONS.ACTION_COMPETITION_DELETE_FAILED:
         case ACTIONS.ACTION_COMPETITION_FETCH_SINGLE_FAILED:
+        case ACTIONS.ACTION_COMPETITION_JOIN_FAILED:
         case ACTIONS.ACTION_COMPETITION_CREATE_FAILED:
             return {
                 ...state,
+
                 competitionProcessing: false,
                 competitionFormMessage: 'There was an error processing your request. Try again later',
                 competitionFormMessageType: FormMessageType.MESSAGE_ERROR,
+                competitionListMessageType: FormMessageType.MESSAGE_ERROR,
+                competitionListMessage: 'There was an error processing your request. Try again later',
+
             };
         case ACTIONS.ACTION_COMPETITION_UPDATE_COMPLETED:
             return {
                 ...state,
                 competitionProcessing: false,
+                redirectToListRequired: true,
                 competitionFormMessage: 'Successfully updated',
                 competitionFormMessageType: FormMessageType.MESSAGE_SUCCESS,
             };
@@ -95,6 +102,16 @@ export function competitionUIReducer(
                 competitionFormMessageType: FormMessageType.MESSAGE_NONE,
                 redirectToListRequired: true,
                 competitionListMessage: 'Successfully created',
+                competitionListMessageType: FormMessageType.MESSAGE_SUCCESS,
+            };
+        case ACTIONS.ACTION_COMPETITION_JOIN_COMPLETED:
+            return {
+                ...state,
+                competitionProcessing: false,
+                competitionFormMessage: null,
+                competitionFormMessageType: FormMessageType.MESSAGE_NONE,
+                redirectToListRequired: true,
+                competitionListMessage: 'Successfully Joined',
                 competitionListMessageType: FormMessageType.MESSAGE_SUCCESS,
             };
         case ACTIONS.ACTION_COMPETITION_RESET_REDIRECT_REQUIRED:
