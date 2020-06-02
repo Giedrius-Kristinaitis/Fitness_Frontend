@@ -45,8 +45,8 @@ const useStyles = makeStyles((theme) => ({
 const competitionClicked = () => {
     history.push('/competition/all');
 }
-const sportProgramsClicked = () => {
-    history.push('/competition/all');
+const openSportsProgramList = () => {
+    history.push('/sportprograms/all');
 }
 const exercisesClicked = () => {
     history.push('/exercise/all');
@@ -56,6 +56,11 @@ const sportsmanClicked = () => {
 }
 const trainerClicked = () => {
     history.push('/trainer/exercise/all');
+}
+
+
+const showRecommendedCoaches = () => {
+    history.push('/coaches/search');
 }
 
 const MainPage: React.FC = () => {
@@ -81,7 +86,7 @@ const MainPage: React.FC = () => {
                     color="primary"
                     className={classes.button}
                     startIcon={<AddIcon/>}
-                    onClick={() => sportProgramsClicked()}
+                    onClick={() => openSportsProgramList()}
                 >
                     Sport programs list
                 </Button>
@@ -117,6 +122,17 @@ const MainPage: React.FC = () => {
                     onClick={() => trainerClicked()}
                 >
                     Trainer/Rate exercise
+                </Button>
+            </div>
+            <div>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    startIcon={<AddIcon/>}
+                    onClick={() => showRecommendedCoaches()}
+                >
+                    Show Recommended Sport Programs
                 </Button>
             </div>
         </div>
